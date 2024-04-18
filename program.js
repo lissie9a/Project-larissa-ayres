@@ -20,19 +20,10 @@ obXCoors = [];
 obYCoors = [];
 obXCoorsP = [];
 obYCoorsP = [];
-//json 
-//fetch('https://server.com/data.json')
-//	.then((response) => response.json())
-//	.then((json) => console.log(json));
 
-
-//var hearts = {
-//	avatar: document.getElementById("sprite1"),
-
-//}
-
-//create empty array
-
+const importButton = document.getElementById("import-button");
+const importJsonInput = document.getElementById("import-json");
+const importDataList = document.getElementById("import-data-list");
 // cat img(num) so read and increment for animation/ 10 cat png
 //var sprites = [];
 //sprites.length = 1;
@@ -223,8 +214,29 @@ const loop = function () {
   }
   
   if (lives < 1) {
- 
-    window.alert("GAME OVER you made it to level " + frameCount +" and have " + coins + " coins.");
+
+
+	  function saveToFile(data) {
+		  const coinNum = coins;
+		  const levelNum = frameCount;
+		  const jsonString = JSON.stringify(data);
+		  const blob = new Blob([jsonString], { type: "application/json" });
+		  const url = URL.createObjectURL(blob);
+		  const a = document.createElement("a");
+		  a.href = url;
+		  a.download = frameCount;
+		  document.body.appendChild(a);
+		  a.click();
+		  document.body.removeChild(a);
+		  URL.revokeObjectURL(url);
+	  }
+	  function addImportedData(data) {
+		  const listItem = document.createElement("score");
+		  listItem.textContent = 'Level: ${data.frameCount}, Coins: ${data.coins}';
+		  importedDataList.appendChild(listItem);
+	  }
+	  window.alert("GAME OVER you made it to level " + frameCount + " and have " + coins + " coins.");
+
 
   }
   //coins
